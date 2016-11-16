@@ -2,9 +2,7 @@ cl-in-clj
 ---------
 
 Clojure project with code samples and walkthroughs for translating Common Lisp
-("CL") code directly to Clojure. These samples are meant to be independent of
-any particular content (like the PAIP book) and stand on their own for quickly
-checking how some Common Lisp idiom translates to Clojure.
+("CL") code directly to Clojure.
 
 Versions of Common Lisp and Clojure environments
 ================================================
