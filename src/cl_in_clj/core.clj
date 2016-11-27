@@ -190,8 +190,10 @@
 
 ; PAIP defines the 'mappend' function in section 1.7, which applies a function
 ; to each element of a list and appends all the results together. In Clojure
-; this is just 'mapcat'
+; this is just 'mapcat'. In CL another variant somewhat similar to this is
+; 'mapcan'.
 (mapcat #(list % (+ % %)) '(1 10 300))
+(mapcat #(list %1 %2) '(a b c d) '(1 2 3 4))
 
 ; CL has 'funcall' to call a function by name, but Clojure as a Lisp-1 doesn't
 ; need this.
