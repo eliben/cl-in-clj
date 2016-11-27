@@ -61,6 +61,11 @@
 ; returns the last element.
 (last letters)
 
+; ... careful with 'last' on vectors, though; it's still O(n). To get the last
+; element of a vector efficiently, use either of the following two:
+(nth v (- (count v) 1))
+(peek v)
+
 ; Simple function definition: CL's 'defun' is Clojure's 'defn'. The syntax for
 ; arguments is different too (Clojure uses [...]).
 ;
