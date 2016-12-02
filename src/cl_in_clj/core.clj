@@ -5,6 +5,33 @@
 (pr true)
 (pr false)
 
+; CL likes working with lists, and uses predicates like 'consp' and 'null'
+; frequently. In Clojure, these may work a bit differently. There's no 'consp';
+; it can be approximated to some degree with seq and list?.
+;
+; (consp x) asks whether x is a "cons cell". Assuming we only deal with
+; well-formed lists (rather than generalized cons cells like (cons 1 2)), consp
+; will return T for all non-empty lists. So we can sort-of approximate it with
+; list?
+(list? '(a b c))
+(list 'a)
+
+; However, (list? '()) is true, while in CL (consp '()) is NIL. So a better way
+; would be:
+(def emptylist '(3))
+(and (list? emptylist) (not (empty? emptylist)))
+; note I didn't use (seq ...) in the second clause because that would return the
+; list itself from the (and ...) rather than true/false.
+; An alternative to (list? ...) is just (seq ...) with the caveat that (seq x)
+; will throw an exception when x is not a sequence (instead of just returning
+; false).
+
+; Similarly, CL's 'null' has no direct equivalent, since it returns T for both
+; empty lists and actual NILs. In Clojure, nil? returns true for nils but not
+; for empty lists. We could do it as follows:
+(def booya nil)
+(or (nil? booya) (empty? booya))
+
 ; CL's 'append' is Clojure's 'concat'
 ; Also note that Clojure is case sensitive by default; CL is case insensitive.
 ; CL> (append '(Pat Kim) '(Robin Sandy))
@@ -192,6 +219,16 @@
 ; Similarly to CL, Clojure has 'time' to time the execution of expressions.
 (time (* 2 2))
 (time (Thread/sleep 100))
+
+; CL's labels to define local, possibly recursive functions can be done with
+; letfn.
+(defn dofac
+  [n]
+  (letfn [(inner-fac [x]
+            (if (= 0 x)
+              1
+              (* x (inner-fac (dec x)))))]
+    (inner-fac n)))
 
 ; PAIP defines the 'mappend' function in section 1.7, which applies a function
 ; to each element of a list and appends all the results together. In Clojure
