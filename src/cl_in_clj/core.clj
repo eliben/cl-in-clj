@@ -60,6 +60,13 @@
 (reset! x 20)
 (deref x)
 
+; Here's a mutable vector we can modify by using swap!
+(def avec (atom []))
+(swap! avec #(conj % 20))     ; swap! to append a new value to the vector
+(deref avec)
+(swap! avec #(assoc % 0 30))  ; swap! to set the value at an index
+(deref avec)
+
 ; Accessing list elements. IN CL we have 'first', 'rest', 'second', 'third',
 ; 'fourth...' In clojure, 'first' and 'rest' work. 'second' works too. For
 ; others, just use 'nth'
@@ -106,7 +113,8 @@
 ; arities and functions with keyword arguments. Here are some examples.
 
 ; Variadic function with a parameter name following a '&' capturing all
-; "unnamed" parameters into a list.
+; "unnamed" parameters into a list. This implements varargs and can also
+; implement optional arguments.
 (defn foo [& args] (map list args))
 (foo 1 2 3 4 5)
 
@@ -114,7 +122,7 @@
 (defn bar [a b & args] (list a b args))
 (bar 10 20 30 40)
 
-; Multi-arity function that can be used to implement "optional" positional
+; Multi-arity function that can be used to implement 'optional' positional
 ; arguments, or just provide slightly different variants of the function for
 ; different arities.
 (defn multiarity
