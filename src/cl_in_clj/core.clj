@@ -67,6 +67,22 @@
 (swap! avec #(assoc % 0 30))  ; swap! to set the value at an index
 (deref avec)
 
+; Clojure also supports dynamic variables that can be bound to some value for
+; the execution of some code with 'binding'
+(def ^:dynamic *veryimportant* false)
+
+(defn add-hello
+  [s]
+  (if *veryimportant*
+    (str "VERY IMPORTANT!!! hello " s)
+    (str "hello " s)))
+
+(add-hello "joe")
+(binding [*veryimportant* true]
+  (add-hello "mabe")
+  (binding [*veryimportant* false]
+    (add-hello "sam")))
+
 ; Accessing list elements. IN CL we have 'first', 'rest', 'second', 'third',
 ; 'fourth...' In clojure, 'first' and 'rest' work. 'second' works too. For
 ; others, just use 'nth'
