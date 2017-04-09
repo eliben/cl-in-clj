@@ -109,6 +109,18 @@
 (take 2 [1 2 3 4])
 (take 2 '(1 2 3 4))
 
+; CL has "position" which returns the index of some searched element in a
+; collection. (position 8 '(7 8 9)) is 1.
+; We can do this in Clojure with .indexOf
+(.indexOf '(7 8 9) 8)
+(.indexOf [7 8 9] 8)
+
+; CL's position has fancy keywords for :start and :end to limit the searching
+; range. I'm not aware of a direct equivalent in Clojure, but we can use a
+; combination of the solutions for "subseq":
+(.indexOf (subvec [1 2 3 4] 2) 4)
+(.indexOf (nthrest '(1 2 3 4) 2) 4)
+
 ; Subtle difference between CL and Clojure is how 'rest' behaves at the end of a
 ; list. In CL, (rest '()) is nil. In Clojure it's the empty list:
 (rest '())
