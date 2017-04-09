@@ -93,13 +93,21 @@
 (rest letters)
 (last letters)
 
-; CL also has subseq, which is polymorphic on sequence type.
+; CL has subseq, which is polymorphic on sequence type.
 ; (subseq '(1 2 3 4) 2) will return (3 4)
 ; In Clojure nthrest can be used on lists and vectors, but it always returns
 ; a list. subveq should be more efficient for vectors.
 (nthrest '(1 2 3 4) 2)
 (nthrest [1 2 3 4] 2)
 (subvec [1 2 3 4] 2)
+
+; subseq can also select a range; (subseq '(1 2 3 4) 0 2) is (1 2)
+; For vectors, subvec can do this. Otherwise, "take" to take the first several
+; (result is always a list); combinations of take and drop can be used to slice
+; more precisely.
+(subvec [1 2 3 4] 0 2)
+(take 2 [1 2 3 4])
+(take 2 '(1 2 3 4))
 
 ; Subtle difference between CL and Clojure is how 'rest' behaves at the end of a
 ; list. In CL, (rest '()) is nil. In Clojure it's the empty list:
